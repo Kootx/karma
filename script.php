@@ -55,7 +55,7 @@ function generate_users($connection) {
 
 function checkSubscriptions($connection) {
     $MAX_NUMBER_OF_PROCESSES = 100;
-    $LETTERS_PER_PROCESS = 50;
+    $LETTERS_PER_PROCESS = 1000;
     $where = " WHERE users.valid=1 AND s.validts > 0 AND UNIX_TIMESTAMP() - s.queued > 90*60 AND UNIX_TIMESTAMP() - s.notified > 60*60*24 AND s.validts > UNIX_TIMESTAMP() AND s.validts - UNIX_TIMESTAMP() < 60*60*24*3";
     $query = "SELECT s.id, service, queued, notified FROM subscriptions  as s LEFT JOIN users ON s.userId=users.id "
             . $where
