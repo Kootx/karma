@@ -49,7 +49,7 @@ if ($connection) {
     logMessage("connected");
     $idsString = join(',', $ids);
     try {
-        $connection->exec("UPDATE subscriptions SET notified = 0 WHERE  id IN($idsString)");
+        $connection->exec("UPDATE subscriptions SET notified=0, queued=UNIX_TIMESTAMP()  WHERE  id IN($idsString)");
         $query = "SELECT s.id, service, users.email, users.username FROM subscriptions as s LEFT JOIN users ON s.userId=users.id "
                 . " WHERE s.id IN(" . $idsString . ") ORDER BY s.validts ASC";
         $stmt = $connection->prepare($query);
